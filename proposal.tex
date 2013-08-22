@@ -3,9 +3,19 @@
 
 \begin{document}
 
-\title{Weenix for a  Multiprocessor}
+\title{Weenix for a Multiprocessor}
 
 \maketitle
+
+\section{Motivation}
+
+Computers and even mobile devices are increasingly shipping with multiple cores. Any modern
+operating system must be able to take advantage of all available processors. While modern
+operating systems support running on all cores, many use coarse-grained mutual exclusion 
+within the kernel to protect its data structures from synchronization issues. With this
+approach, no actual parallelism is achieved within kernel tasks. Applying lock-free and 
+wait-free algorithms to the kernel would allow parallelism in an operating system's own
+tasks.
 
 \section{Overarching goals}
 
