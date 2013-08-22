@@ -3,8 +3,8 @@
 
 \begin{document}
 
-\title{Weenix for a Multiprocessor}
-
+\title{Independent Study: Multiprocessor Weenix}
+\author{Eric Caruso, Jackson Owens}
 \maketitle
 
 \section{Motivation}
@@ -20,13 +20,21 @@ tasks.
 \section{Overarching goals}
 
 \begin{itemize}
-    \item Implement wait-free and lock-free algorithms and data structures
+    \item Learn and implement wait-free and lock-free algorithms and data structures
     \item Port Weenix to run on a multiprocessor
 \end{itemize}
 
 \section{Synchronization constructs}
 
+We'll need to build up a library of synchronization constructs to use across the kernel. Many of
+the data structures deeply embedded within Weenix, such as {\tt{list\_t}}, will need to be
+replaced with concurrent versions.
+
 \subsection{Hardware instruction abstractions}
+
+To implement locks, wait-free and lock-free data structures, we'll need to use synchronization 
+hardware instructions like x86's {\tt{CMPXCHG}}. To avoid littering inline assembly everywhere,
+we'll create a library of wrappers around these synchronization instructions.
 
 \subsection{Concurrent data structures}
 
