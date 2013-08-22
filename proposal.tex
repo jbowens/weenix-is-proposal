@@ -12,10 +12,10 @@
 Computers and even mobile devices are increasingly shipping with multiple cores. Any modern
 operating system must be able to take advantage of all available processors. While modern
 operating systems support running on all cores, many use coarse-grained mutual exclusion 
-within the kernel to protect its data structures from synchronization issues. With this
-approach, no actual parallelism is achieved within kernel tasks. Applying lock-free and 
-wait-free algorithms to the kernel would allow parallelism in an operating system's own
-tasks.
+within the kernel to protect its data structures from synchronization issues. This approach
+ensures concurrent safety but achieves no actual parallelism within kernel tasks. Applying 
+lock-free and wait-free algorithms to the kernel would allow parallelism in an operating 
+system's own tasks.
 
 \section{Overarching goals}
 
@@ -37,5 +37,23 @@ hardware instructions like x86's {\tt{CMPXCHG}}. To avoid littering inline assem
 we'll create a library of wrappers around these synchronization instructions.
 
 \subsection{Concurrent data structures}
+
+Many kernel data structures like wait queues and lists must be accessible from multiple
+processors concurrently. We'll need to write concurrent versions of these data structures.
+
+\begin{itemize}
+    \item \textbf{Mutexes}\\
+    Some resources, like the hard disk, will need to be protected through mutual exclusion. The current mutex
+    implementation, {\tt{kmutex\_t}}, will not work on a multiprocessor. We'll need to implement
+    spin locks and mutexes.
+    \item \textbf{Concurrent queue}\\
+    Queues are used throughout Weenix, mostly in the form of {\tt{ktqueue\_t}} wait queues. We can
+    use known algorithms for wait-free queues (Kogan, Petrank) and more practical lock-free queues (Michael, Scott) 
+    \item \textbf{Concurrent list}\\
+    Lists are everywhere in Weenix. Both lock-free and wait-free algorithms exist for linked lists.
+    \item \textbf{Concurrent hash table or skip list}\\
+    In Weenix page frames are looked up through a hash table. Algorithms exist for fast, concurrent hash tables. Or,
+    we might be able to simplify things and instead use a concurrent skip list.
+\end{itemize}
 
 \end{document}
