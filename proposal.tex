@@ -12,8 +12,9 @@
 Computers and even mobile devices are increasingly shipping with multiple cores. Any modern
 operating system must be able to take advantage of all available processors. While modern
 operating systems support running on all cores, many use coarse-grained mutual exclusion 
-within the kernel to protect its data structures from synchronization issues. This approach
-ensures concurrent safety but achieves no actual parallelism within kernel tasks. Applying 
+within the kernel to protect its data structures from synchronization issues. %DISCLAIMER: Might not be true.
+
+This approach ensures concurrent safety but achieves no actual parallelism within kernel tasks. Applying 
 lock-free and wait-free algorithms to the kernel would allow parallelism in an operating 
 system's own tasks.
 
