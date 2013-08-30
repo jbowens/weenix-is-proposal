@@ -62,14 +62,22 @@ processors concurrently. We'll need to write concurrent versions of these data s
 Weenix is large enough that we should port incrementally. We can disable everything from kern 2 up, and follow the same
 trajectory as 169, renabling parts of the operating system as we port.
 
-\subsection{Weenix base and Kern 1}
+\subsection{Subsystems and Kern 1}
 
-\subsection{Kern 2}
+The boot sequence must start the extra cores as appropriate. Slab allocators must be reworked to be SMP-safe,
+and we would like to achieve this by using lock-free algorithms. The scheduler must also be changed. Since we
+are implementing kernel preemption, we are going to need to use priority, and the scheduler will need to take
+this into account as well. We will also need to change the page frame subsystem at this point, because
+the page frames are needed to put the kernel at the proper location in virtual memory. TLB shootdown will also
+need to be implemented.
 
-\subsection{VFS}
+The single-processor, cooperative design of the Weenix kernel is fairly baked in, but we are confident that
+we can change it.
 
-\subsection{S5FS}
+\subsection{Kern 2 and Beyond}
 
-\subsection{VM}
+Our implementations of the projects from here on usually made use of the same single-processor, cooperative
+assumption, and will need more elaborate locking schemes, because there is now no guarantee that we can
+execute specific contiguous statements without other things happening in between.
 
 \end{document}
