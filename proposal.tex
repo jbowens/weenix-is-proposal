@@ -10,13 +10,11 @@
 \section{Motivation}
 
 Computers and even mobile devices are increasingly shipping with multiple cores. Any modern
-operating system must be able to take advantage of all available processors. While modern
-operating systems support running on all cores, many use coarse-grained mutual exclusion 
-within the kernel to protect its data structures from synchronization issues. %DISCLAIMER: Might not be true.
-
-This approach ensures concurrent safety but achieves no actual parallelism within kernel tasks. Applying 
-lock-free and wait-free algorithms to the kernel would allow parallelism in an operating 
-system's own tasks.
+operating system must be able to take advantage of all available processors. Because operating
+systems are complicated, using ordinary locking schemes may lead to deadlock in the kernel which
+is very hard to debug. Lock- and wait-free algorithms may alleviate this problem. In addition,
+it might be tempting to use coarse-grained locking schemes because they are simple to implement,
+but this cuts down the achievable parallelism.
 
 \section{Overarching goals}
 
@@ -24,6 +22,17 @@ system's own tasks.
     \item Learn and implement wait-free and lock-free algorithms and data structures
     \item Port Weenix to run on a multiprocessor
 \end{itemize}
+
+\section{Multiprocessor OS design}
+
+For simplicity, Weenix is built on the assumption that:
+\begin{enumerate}
+    \item There is only one processor, and
+    \item Whatever is running on that processor cannot be preempted.
+\end{enumerate}
+
+We wish to use this project to learn the complexities in designing and implementing
+an operating system for a multiprocessor machine, because this is quite restrictive.
 
 \section{Synchronization constructs}
 
@@ -71,13 +80,10 @@ this into account as well. We will also need to change the page frame subsystem 
 the page frames are needed to put the kernel at the proper location in virtual memory. TLB shootdown will also
 need to be implemented.
 
-The single-processor, cooperative design of the Weenix kernel is fairly baked in, but we are confident that
-we can change it.
-
 \subsection{Kern 2 and Beyond}
 
-Our implementations of the projects from here on usually made use of the same single-processor, cooperative
+Our implementations of the projects from here on usually made use of the single-processor, cooperative kernel
 assumption, and will need more elaborate locking schemes, because there is now no guarantee that we can
-execute specific contiguous statements without other things happening in between.
+execute contiguous statements without other things happening in between.
 
 \end{document}
