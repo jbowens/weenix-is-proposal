@@ -21,6 +21,7 @@ but this cuts down the achievable parallelism.
 \begin{itemize}
     \item Learn and implement wait-free and lock-free algorithms and data structures
     \item Port Weenix to run on a multiprocessor
+    \item Create a new project/tool for teaching OS design on multiprocessor systems
 \end{itemize}
 
 \section{Multiprocessor OS design}
@@ -85,5 +86,26 @@ need to be implemented.
 Our implementations of the projects from here on usually made use of the single-processor, cooperative kernel
 assumption, and will need more elaborate locking schemes, because there is now no guarantee that we can
 execute contiguous statements without other things happening in between.
+
+\section{Educational value}
+
+cs167/9 currently teaches the design and implementation of operating systems, but as stated before this is
+limited to systems which are not in use anymore. cs176 teaches the design of concurrent algorithms and
+data structures, but in the class, the use cases are restricted to general software projects. As time goes
+on, Weenix in its current form risks being too out-of-date to teach modern operating system design.
+
+This project could be a remedy for this, and potentially take on several different forms. If the design
+does not force students to jump many more complicated hurdles, it could be useful as a replacement for the
+current Weenix project in 169. If the project does become too elaborate to be demonstrative of basic OS
+design principles while allowing students to complete it in a semester, it could become a project in its
+own right, either as a separate class or lab for people who have taken 167/9 and 176.
+
+The case against replacing Weenix with this project is probably not due to extra workload, but the fact 
+that it would become nondeterministic, which would make debugging more difficult for students.
+
+\section{Backporting}
+
+Over the course of developing SMP Weenix, we may find that changes can be ported back to the original
+Weenix project if they make the design of the OS cleaner or the implementation easier.
 
 \end{document}
